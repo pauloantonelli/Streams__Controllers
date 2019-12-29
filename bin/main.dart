@@ -11,5 +11,4 @@ void main() {
     print(data);
   });
   primeiroFluxo.sink.add(4);
-  print(primeiroFluxo.value);
 }
