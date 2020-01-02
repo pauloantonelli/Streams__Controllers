@@ -8,5 +8,5 @@ void main() {
   primeirFluxo.sink.add(2);
   primeirFluxo.sink.add(3);
 
-  print('values: ${primeirFluxo.values}');
+  print('Replay Subject values: ${primeirFluxo.values}');
 }
