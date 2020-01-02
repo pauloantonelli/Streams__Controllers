@@ -3,12 +3,18 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 void main() {
-  Stream stream = Stream.value(
-      'a'); // emite um valor, que depois de escutado morre a instancia da stream
-  stream.listen(
+  StreamSubscription subs;
+
+  // emite um valor, que depois de escutado morre a instancia da stream
+  Stream stream = Stream.value('a');
+
+  subs = stream.listen(
     print,
     onDone: () => print('Terminei de receber os dados do observable!'),
   );
+
+  subs.pause();
+  subs.resume();
 
   BehaviorSubject behavior = new BehaviorSubject();
   StreamSubscription subscription = behavior.listen(print);
