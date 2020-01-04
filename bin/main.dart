@@ -3,23 +3,22 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 void main() {
-  StreamController stc = new StreamController.broadcast();
-  Iterable lista = [
-    [1, 2, 3],
-    [4],
-    [5, 6, 7],
-    [8, 9],
-    [10]
-  ].expand((data) => data);
-  print('array: $lista');
+  StreamController<Pessoa> stc = new StreamController<Pessoa>.broadcast();
 
   stc.stream
-      .expand((data) => data)
-      .map((data) => data * 2)
-      .listen((onData) => print('Stream $onData'));
-  stc.sink.add([1, 2, 3]);
-  stc.sink.add([4]);
-  stc.sink.add([5, 6, 7]);
-  stc.sink.add([8, 9]);
-  stc.sink.add([10]);
+      .distinct((before, current) =>
+          before.nome.endsWith('o') && current.nome.endsWith('o'))
+      .listen((onData) => print('Stream ${onData.nome}'));
+  stc.sink.add(Pessoa(nome: 'João'));
+  stc.sink.add(Pessoa(nome: 'João'));
+  stc.sink.add(Pessoa(nome: 'Carlos'));
+  stc.sink.add(Pessoa(nome: 'Carlos'));
+  stc.sink.add(Pessoa(nome: 'Mário'));
+  stc.sink.add(Pessoa(nome: 'Romário'));
+}
+
+class Pessoa {
+  String nome;
+  int idade;
+  Pessoa({this.nome, this.idade});
 }
