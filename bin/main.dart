@@ -9,11 +9,13 @@ void main() {
       .asyncMap((e) => fakeRequest(e))
       .listen((onData) => print('Stream: $onData'));
 
-  stc.sink.add('algum dado');
+  stc.sink.add('o');
 }
 
-Future<List<int>> fakeRequest(String query) async {
+Future<List<String>> fakeRequest(String query) async {
   print('query recebida: $query');
   await Future.delayed(Duration(microseconds: 500));
-  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  return ['Jão', 'Paulo', 'Carlos', 'Daniel', 'Romário']
+      .where((e) => e.contains(query))
+      .toList();
 }
