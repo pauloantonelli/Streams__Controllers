@@ -3,22 +3,17 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 void main() {
-  StreamController<Pessoa> stc = new StreamController<Pessoa>.broadcast();
+  StreamController stc = new StreamController.broadcast();
 
   stc.stream
-      .distinct((before, current) =>
-          before.nome.endsWith('o') && current.nome.endsWith('o'))
-      .listen((onData) => print('Stream ${onData.nome}'));
-  stc.sink.add(Pessoa(nome: 'João'));
-  stc.sink.add(Pessoa(nome: 'João'));
-  stc.sink.add(Pessoa(nome: 'Carlos'));
-  stc.sink.add(Pessoa(nome: 'Carlos'));
-  stc.sink.add(Pessoa(nome: 'Mário'));
-  stc.sink.add(Pessoa(nome: 'Romário'));
+      .asyncMap((e) => fakeRequest(e))
+      .listen((onData) => print('Stream: $onData'));
+
+  stc.sink.add('algum dado');
 }
 
-class Pessoa {
-  String nome;
-  int idade;
-  Pessoa({this.nome, this.idade});
+Future<List<int>> fakeRequest(String query) async {
+  print('query recebida: $query');
+  await Future.delayed(Duration(microseconds: 500));
+  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 }
