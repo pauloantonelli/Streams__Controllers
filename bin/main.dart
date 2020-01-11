@@ -6,9 +6,8 @@ void main() {
   BehaviorSubject<String> stcA = new BehaviorSubject<String>();
   BehaviorSubject<String> stcB = new BehaviorSubject<String>.seeded('Mundo');
 
-  stcA.stream.pipe(stcB);
-  stcA.sink.add('Ola');
+  stcA.sink.add('Olá Mundo');
 
-  stcA.stream.listen((e) => print('Dados da stream A: $e'));
+  stcA.stream.listen((e) => stcB.sink.add(e));
   stcB.stream.listen((e) => print('Dados da stream B: $e'));
 }
