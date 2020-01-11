@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 void main() {
-  StreamController stc = new StreamController.broadcast();
+  RangeStream lista = new RangeStream(1, 50);
 
-  stc.stream
-      .debounce((e) => TimerStream(true, Duration(seconds: 10)))
-      .listen((onData) => print('Stream: $onData'));
-
-  stc.sink.add(1);
-  stc.sink.add(5);
+  RangeStream(1, 50)
+      .switchMap((item) {
+        print('switch: $item');
+        return new TimerStream((item * 2), Duration(seconds: 2));
+      })
+      .debounce((e) => TimerStream(true, Duration(seconds: 3)))
+      .listen((e) => print(e));
 }
