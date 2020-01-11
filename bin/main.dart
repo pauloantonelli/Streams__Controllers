@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 void main() {
-  BehaviorSubject<String> stc = new BehaviorSubject<String>();
-  // stc.startWith('Paulo').listen(print);
-  stc.startWithMany(['Paulo', 'Antonelli', 'Developer']).listen(print);
+  BehaviorSubject stcA = new BehaviorSubject();
+  BehaviorSubject stcB = new BehaviorSubject();
 
-  stc.sink.add('Like');
-  stc.sink.add('Dart');
+  Stream _stream = stcA.mergeWith([stcB.stream]);
+
+  _stream.listen(print);
+
+  stcA.sink.add('Paulo');
+  stcB.sink.add('Ricardo');
 }
